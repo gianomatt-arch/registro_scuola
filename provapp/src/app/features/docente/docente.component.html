@@ -1,0 +1,51 @@
+<section class="grid">
+  <article class="card">
+    <h2>Inserisci un voto</h2>
+    <p>Compila il registro per aggiungere una nuova valutazione.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        Nome studente
+        <input type="text" formControlName="studenteNome">
+      </label>
+      <label>
+        Username studente
+        <input type="text" formControlName="studenteUsername">
+      </label>
+      <label>
+        Materia
+        <input type="text" formControlName="materia">
+      </label>
+      <label>
+        Voto
+        <input type="number" min="1" max="10" step="0.25" formControlName="voto">
+      </label>
+      <button type="submit">Salva voto</button>
+      <p class="feedback" *ngIf="feedback()">{{ feedback() }}</p>
+    </form>
+  </article>
+
+  <article class="card wide">
+    <h2>Tutti i voti</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Studente</th>
+          <th>Username</th>
+          <th>Materia</th>
+          <th>Voto</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let voto of voti()">
+          <td>{{ voto.studente_nome }}</td>
+          <td>{{ voto.studente_username }}</td>
+          <td>{{ voto.materia }}</td>
+          <td>{{ voto.voto }}</td>
+          <td>{{ voto.created_at | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>

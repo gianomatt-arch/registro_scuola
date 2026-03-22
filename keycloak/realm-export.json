@@ -1,0 +1,55 @@
+{
+  "realm": "registro-realm",
+  "enabled": true,
+  "roles": {
+    "realm": [
+      { "name": "docente" },
+      { "name": "studente" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "registro-frontend",
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": ["http://localhost:4200/*"],
+      "webOrigins": ["http://localhost:4200"],
+      "protocol": "openid-connect"
+    }
+  ],
+  "users": [
+    {
+      "username": "docente1",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Anna",
+      "lastName": "Docente",
+      "credentials": [
+        { "type": "password", "value": "docente123", "temporary": false }
+      ],
+      "realmRoles": ["docente"]
+    },
+    {
+      "username": "studente1",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Mario",
+      "lastName": "Rossi",
+      "credentials": [
+        { "type": "password", "value": "studente123", "temporary": false }
+      ],
+      "realmRoles": ["studente"]
+    },
+    {
+      "username": "studente2",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Giulia",
+      "lastName": "Bianchi",
+      "credentials": [
+        { "type": "password", "value": "studente123", "temporary": false }
+      ],
+      "realmRoles": ["studente"]
+    }
+  ]
+}
