@@ -1,0 +1,55 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: registro_elettronico
+      MYSQL_USER: registro
+      MYSQL_PASSWORD: registro123
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    image: python:3.12-slim
+    working_dir: /app
+    command: sh -c "pip install -r requirements.txt && python app.py"
+    volumes:
+      - ./backend:/app
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: registro
+      DB_PASSWORD: registro123
+      DB_NAME: registro_elettronico
+      KEYCLOAK_SERVER_URL: http://keycloak:8080/
+      KEYCLOAK_REALM: registro-realm
+      KEYCLOAK_CLIENT_ID: registro-frontend
+    ports:
+      - '5000:5000'
+    depends_on:
+      - db
+      - keycloak
+
+  provapp:
+    image: node:20
+    working_dir: /app
+    command: sh -c "npm install && npm start"
+    volumes:
+      - ./provapp:/app
+    ports:
+      - '4200:4200'
+    depends_on:
+      - backend
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json

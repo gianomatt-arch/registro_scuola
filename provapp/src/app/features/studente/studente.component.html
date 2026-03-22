@@ -1,0 +1,21 @@
+<section class="card hero">
+  <div>
+    <p class="eyebrow">Benvenuto</p>
+    <h2>{{ profile()?.firstName || profile()?.username }}</h2>
+    <p>Qui puoi consultare solamente i tuoi voti, in totale sicurezza.</p>
+  </div>
+  <div class="badge">{{ voti().length }} voti registrati</div>
+</section>
+
+<section class="card list">
+  <h3>I miei voti</h3>
+  <div class="empty" *ngIf="!voti().length">Nessun voto disponibile al momento. Respira: forse è un bene 😄</div>
+
+  <div class="voti-grid">
+    <article class="voto" *ngFor="let voto of voti()">
+      <p>{{ voto.materia }}</p>
+      <strong>{{ voto.voto }}</strong>
+      <span>{{ voto.created_at | date:'fullDate' }}</span>
+    </article>
+  </div>
+</section>
